@@ -1218,9 +1218,11 @@ class Project(object):
     try:
       return self.bare_git.rev_list(self.revisionExpr, '-1')[0]
     except GitError:
-      raise ManifestInvalidRevisionError(
-        'revision %s in %s not found' % (self.revisionExpr,
+      print('revision %s in %s not found' % (self.revisionExpr,
                                          self.name))
+      """raise ManifestInvalidRevisionError(
+        'revision %s in %s not found' % (self.revisionExpr,
+                                         self.name))"""
 
   def GetRevisionId(self, all_refs=None):
     if self.revisionId:
@@ -1235,7 +1237,8 @@ class Project(object):
     try:
       return self.bare_git.rev_parse('--verify', '%s^0' % rev)
     except GitError:
-      raise ManifestInvalidRevisionError(
+      """raise ManifestInvalidRevisionError"""
+      print(
         'revision %s in %s not found' % (self.revisionExpr,
                                          self.name))
 
@@ -1277,9 +1280,11 @@ class Project(object):
         if not syncbuf.detach_head:
           return
       else:
-        lost = self._revlist(not_rev(revid), HEAD)
-        if lost:
-          syncbuf.info(self, "discarding %d commits", len(lost))
+        if revid:
+          lost = self._revlist(not_rev(revid), HEAD)
+          if lost:
+            syncbuf.info(self, "discarding %d commits", len(lost))
+	else: print("rev == None")
 
       try:
         self._Checkout(revid, quiet=True)
@@ -2362,7 +2367,7 @@ class Project(object):
         self._ReferenceGitDir(self.gitdir, dotgit, share_refs=True,
                               copy_all=False)
 
-      try:
+      """try:
         self._CheckDirReference(self.gitdir, dotgit, share_refs=True)
       except GitError as e:
         if force_sync:
@@ -2371,7 +2376,7 @@ class Project(object):
             return self._InitWorkTree(force_sync=False)
           except:
             raise e
-        raise e
+        raise e"""
 
       if init_dotgit:
         _lwrite(os.path.join(dotgit, HEAD), '%s\n' % self.GetRevisionId())
