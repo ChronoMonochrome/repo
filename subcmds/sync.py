@@ -698,7 +698,7 @@ def _PostRepoUpgrade(manifest, quiet=False):
       project.PostRepoUpgrade()
 
 def _PostRepoFetch(rp, no_repo_verify=False, verbose=False):
-  if rp.HasChanges:
+  if 0:
     print('info: A new version of repo is available', file=sys.stderr)
     print(file=sys.stderr)
     if no_repo_verify or _VerifyTag(rp):
